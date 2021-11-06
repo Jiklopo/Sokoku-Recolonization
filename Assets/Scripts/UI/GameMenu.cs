@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 namespace UI
 {
-	public class GameMenu : UIElement
+	public class GameMenu : UIElementSingleton<GameMenu>
 	{
 		[SerializeField] private Button resumeButton;
 		[SerializeField] private Button menuButton;
 		protected override void OnAwake()
 		{
+			base.OnAwake();
 			resumeButton.onClick.AddListener(ResumeGame);
 			menuButton.onClick.AddListener(GoToMenu);
 			GameBus.OnGamePaused += OnGamePaused;
