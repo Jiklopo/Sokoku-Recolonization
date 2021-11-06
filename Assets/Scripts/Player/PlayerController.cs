@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
+	[RequireComponent(typeof(Player))]
 	[RequireComponent(typeof(CharacterController))]
 	public class PlayerController : MonoBehaviour
 	{
@@ -11,16 +12,21 @@ namespace Player
 		[SerializeField] private float mouseSensitivity;
 		[SerializeField] private float maxYRotation = 360;
 		[SerializeField] private float minYRotation = -90;
-		
+
+		private Player player;
 		private PlayerInputActions inputActions;
 		private CharacterController characterController;
 
 		private void Awake()
 		{
 			characterController = GetComponent<CharacterController>();
+			player = GetComponent<Player>();
+			
+		}
 
-			inputActions = new PlayerInputActions();
-			inputActions.Enable();
+		private void Start()
+		{
+			inputActions = player.InputActions;
 			inputActions.Controls.Action1.performed += Action1;
 			inputActions.Controls.Action2.performed += Action2;
 			inputActions.Controls.Interact.performed += Interact;
@@ -31,6 +37,14 @@ namespace Player
 		{
 			Move();
 			RotateCamera();
+		}
+
+		private void OnDestroy()
+		{
+			inputActions.Controls.Action1.performed -= Action1;
+			inputActions.Controls.Action2.performed -= Action2;
+			inputActions.Controls.Interact.performed -= Interact;
+			inputActions.Controls.Jump.performed -= Jump;
 		}
 
 		private void Move()
