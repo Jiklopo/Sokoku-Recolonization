@@ -6,7 +6,7 @@ namespace UI
 {
 	public abstract class UIElement : MonoBehaviour
 	{
-		[SerializeField] private bool showAtStart;
+		[SerializeField] private bool showOnAwake;
 		[SerializeField] private float animationTime = 0.3f;
 
 		public bool IsShown => gameObject.activeSelf;
@@ -16,15 +16,11 @@ namespace UI
 		private void Awake()
 		{
 			OnAwake();
+			gameObject.SetActive(showOnAwake);
 		}
 
 		protected virtual void OnAwake()
 		{
-		}
-
-		private void Start()
-		{
-			gameObject.SetActive(showAtStart);
 		}
 
 		public void Show(UIElement caller)
