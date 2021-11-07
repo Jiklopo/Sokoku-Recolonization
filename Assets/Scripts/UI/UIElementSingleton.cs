@@ -16,5 +16,7 @@
 		public static void ShowInstance() => Instance.Show();
 
 		public static void CloseInstance() => Instance.Close();
+
+		public static void ToggleInstance() => Instance.Toggle();
 	}
 }

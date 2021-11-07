@@ -63,5 +63,13 @@ namespace UI
 		protected virtual void OnClosed()
 		{
 		}
+
+		public void Toggle()
+		{
+			if (IsShown)
+				Close();
+			else
+				Show();
+		}
 	}
 }
