@@ -1,4 +1,6 @@
 ﻿using System;
+using Data;
+using Events;
 using InventorySystem;
 using UI;
 using UnityEngine;
@@ -24,6 +26,25 @@ namespace Player
 		{
 			InventoryPanel.Instance.Initialize(maxSize);
 			player.InputActions.UI.Inventory.performed += ToggleInventory;
+		}
+
+		public bool AddItems(ItemData itemData, int amount = 1)
+		{
+			if (!inventory.TryAddItems(itemData, amount)) 
+				return false;
+			
+			GameBus.OnInventoryUpdated.Invoke(inventory.items);
+			return true;
+
+		}
+
+		public bool RemoveItems(ItemData itemData, int amount = 1)
+		{
+			if (!inventory.TryRemoveItems(itemData, amount)) 
+				return false;
+			
+			GameBus.OnInventoryUpdated.Invoke(inventory.items);
+			return true;
 		}
 
 		private void ToggleInventory(InputAction.CallbackContext context)

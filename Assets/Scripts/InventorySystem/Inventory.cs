@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Data;
 
 namespace InventorySystem
 {
@@ -6,15 +7,15 @@ namespace InventorySystem
 	{
 		private int maxSize;
 		
-		private Dictionary<Item, int> items;
+		public readonly Dictionary<ItemData, int> items;
 
 		public Inventory(int maxSize)
 		{
 			this.maxSize = maxSize;
-			items = new Dictionary<Item, int>();
+			items = new Dictionary<ItemData, int>();
 		}
 
-		public bool TryAddItems(Item item, int amount = 1)
+		public bool TryAddItems(ItemData item, int amount = 1)
 		{
 			if (items.Count >= maxSize && !items.ContainsKey(item)) 
 				return false;
@@ -23,7 +24,7 @@ namespace InventorySystem
 			return true;
 		}
 
-		public bool TryRemoveItems(Item item, int removeAmount = 1)
+		public bool TryRemoveItems(ItemData item, int removeAmount = 1)
 		{
 			if (!items.TryGetValue(item, out var itemAmount))
 				return false;
@@ -39,7 +40,7 @@ namespace InventorySystem
 			return true;
 		}
 
-		private void AddItemsWithoutChecks(Item item, int amount)
+		private void AddItemsWithoutChecks(ItemData item, int amount)
 		{
 			if (items.ContainsKey(item))
 				items[item] += amount;

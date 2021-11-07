@@ -1,20 +1,25 @@
 ﻿using System;
 using Data;
+using Player;
 using UnityEngine;
 
 namespace InventorySystem
 {
-	[Serializable]
-	public abstract class Item
+	public abstract class Item: MonoBehaviour, ICollisionTarget
 	{
-		[SerializeField] protected Sprite icon;
-		public abstract bool IsUsable { get; }
-		public abstract int MaxStack { get; }
-		public abstract string Name { get; }
+		[SerializeField] private ItemData data;
 
 		public virtual void Use(ItemUseData itemUseData)
 		{
-			
+		}
+
+		public virtual void OnCollision(GameObject other)
+		{
+			var playerInventory = other.GetComponent<PlayerInventory>();
+			if (playerInventory == null)
+				return;
+			if(playerInventory.AddItems(data))
+				Destroy(gameObject);
 		}
 
 		public override bool Equals(object obj)
@@ -29,17 +34,14 @@ namespace InventorySystem
 
 		protected bool Equals(Item other)
 		{
-			return Name.Equals(other.Name);
+			return data.Equals(other.data);
 		}
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
-				var hashCode = icon != null ? icon.GetHashCode() : 0;
-				hashCode = (hashCode * 397) ^ IsUsable.GetHashCode();
-				hashCode = (hashCode * 397) ^ MaxStack;
-				hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+				var hashCode = 397 ^ data.GetHashCode();
 				return hashCode;
 			}
 		}

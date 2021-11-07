@@ -21,5 +21,10 @@ namespace Player
 		{
 			InputActions.Disable();
 		}
+
+		private void OnControllerColliderHit(ControllerColliderHit hit)
+		{
+			hit.gameObject.GetComponent<ICollisionTarget>()?.OnCollision(gameObject);
+		}
 	}
 }
