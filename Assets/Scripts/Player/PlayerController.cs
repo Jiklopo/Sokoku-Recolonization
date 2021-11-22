@@ -8,7 +8,6 @@ namespace Player
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField] private Camera playerCamera;
-		[SerializeField] private float movementSpeed;
 		[SerializeField] private float mouseSensitivity;
 		[SerializeField] private float maxYRotation = 360;
 		[SerializeField] private float minYRotation = -90;
@@ -16,6 +15,8 @@ namespace Player
 		private Player player;
 		private PlayerInputActions inputActions;
 		private CharacterController characterController;
+
+		private PlayerStats Stats => player.playerStats;
 
 		private void Awake()
 		{
@@ -54,7 +55,7 @@ namespace Player
 			var direction = new Vector3(right, 0, forward);
 			
 			direction = transform.TransformDirection(direction);
-			characterController.Move(direction * (movementSpeed * Time.deltaTime));
+			characterController.Move(direction * (Stats.MovementSpeed * Time.deltaTime));
 		}
 
 		private void RotateCamera()

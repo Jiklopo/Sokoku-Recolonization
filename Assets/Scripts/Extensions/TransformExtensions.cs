@@ -14,7 +14,7 @@ namespace Extensions
 		public static void DestroyAllChildren(this Transform transform)
 		{
 			var children = transform.GetAllChildren();
-			children.ForEach(Object.Destroy);
+			children.ForEach(c => Object.Destroy(c.gameObject));
 		}
 	}
 }

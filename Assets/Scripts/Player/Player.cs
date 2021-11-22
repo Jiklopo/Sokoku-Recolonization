@@ -6,6 +6,7 @@ namespace Player
 	public class Player : MonoBehaviour
 	{
 		public PlayerInputActions InputActions { get; private set; }
+		public PlayerStats playerStats = new PlayerStats();
 
 		private void Awake()
 		{

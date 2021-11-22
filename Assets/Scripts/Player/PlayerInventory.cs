@@ -11,31 +11,28 @@ namespace Player
 	[RequireComponent(typeof(Player))]
 	public class PlayerInventory : MonoBehaviour
 	{
-		[SerializeField] private int maxSize;
-		
 		private Player player;
 		private Inventory inventory;
+
+		private PlayerStats Stats => player.playerStats;
 
 		private void Awake()
 		{
 			player = GetComponent<Player>();
-			inventory = new Inventory(maxSize);
+			inventory = new Inventory();
 		}
 
 		private void Start()
 		{
-			InventoryPanel.Instance.Initialize(maxSize);
+			InventoryPanel.Instance.Initialize();
 			player.InputActions.UI.Inventory.performed += ToggleInventory;
 		}
 
-		public bool AddItems(ItemData itemData, int amount = 1)
+		public void AddItems(ItemData itemData, int amount = 1)
 		{
-			if (!inventory.TryAddItems(itemData, amount)) 
-				return false;
-			
+			inventory.AddItems(itemData, amount);
+			Stats.BoostStats(itemData, amount);
 			GameBus.OnInventoryUpdated.Invoke(inventory.items);
-			return true;
-
 		}
 
 		public bool RemoveItems(ItemData itemData, int amount = 1)
@@ -43,6 +40,7 @@ namespace Player
 			if (!inventory.TryRemoveItems(itemData, amount)) 
 				return false;
 			
+			Stats.RemoveStats(itemData, amount);
 			GameBus.OnInventoryUpdated.Invoke(inventory.items);
 			return true;
 		}

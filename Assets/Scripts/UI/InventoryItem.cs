@@ -11,16 +11,18 @@ namespace UI
 		[SerializeField] private TextMeshProUGUI countText;
 		private ItemData data;
 
-		public void SetData(ItemData itemData, int amount)
+		public InventoryItem SetData(ItemData itemData, int amount)
 		{
 			itemImage.sprite = itemData.icon;
 			countText.SetText(amount.ToString());
+			return this;
 		}
 
-		public void Clear()
+		public InventoryItem Clear()
 		{
 			itemImage.sprite = null;
 			countText.SetText("");
+			return this;
 		}
 	}
 }

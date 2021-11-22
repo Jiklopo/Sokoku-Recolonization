@@ -5,23 +5,19 @@ namespace InventorySystem
 {
 	public class Inventory
 	{
-		private int maxSize;
-		
 		public readonly Dictionary<ItemData, int> items;
 
-		public Inventory(int maxSize)
+		public Inventory()
 		{
-			this.maxSize = maxSize;
 			items = new Dictionary<ItemData, int>();
 		}
 
-		public bool TryAddItems(ItemData item, int amount = 1)
+		public void AddItems(ItemData item, int amount = 1)
 		{
-			if (items.Count >= maxSize && !items.ContainsKey(item)) 
-				return false;
-			
-			AddItemsWithoutChecks(item, amount);
-			return true;
+			if (items.ContainsKey(item))
+				items[item] += amount;
+			else
+				items.Add(item, amount);
 		}
 
 		public bool TryRemoveItems(ItemData item, int removeAmount = 1)
@@ -38,14 +34,6 @@ namespace InventorySystem
 				items[item] -= removeAmount;
 
 			return true;
-		}
-
-		private void AddItemsWithoutChecks(ItemData item, int amount)
-		{
-			if (items.ContainsKey(item))
-				items[item] += amount;
-			else
-				items.Add(item, amount);
 		}
 	}
 }

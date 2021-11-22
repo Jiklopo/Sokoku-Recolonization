@@ -2,6 +2,7 @@
 using Data;
 using Events;
 using Extensions;
+using Player;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,40 +11,28 @@ namespace UI
 	public class InventoryPanel: UIElementSingleton<InventoryPanel>
 	{
 		[SerializeField] private InventoryItem inventoryItemPrefab;
-		[SerializeField] private GridLayoutGroup inventoryGrid;
+		[SerializeField] private RectTransform inventoryGrid;
 
-		private List<InventoryItem> items = new List<InventoryItem>();
+		private readonly List<InventoryItem> items = new List<InventoryItem>();
 		protected override void OnAwake()
 		{
 			base.OnAwake();
 			GameBus.OnInventoryUpdated += UpdateInventoryGrid;
 		}
 
-		public void Initialize(int slotsAmount)
+		public void Initialize()
 		{
 			items.Clear();
 			inventoryGrid.transform.DestroyAllChildren();
-
-			for (var i = 0; i < slotsAmount; i++)
-			{
-				items.Add(Instantiate(inventoryItemPrefab, inventoryGrid.transform));
-				items[i].Clear();
-			}
 		}
 
 		private void UpdateInventoryGrid(Dictionary<ItemData, int> inventory)
 		{
 			inventoryGrid.transform.DestroyAllChildren();
-			foreach (var inventoryItem in items)
-				inventoryItem.Clear();
-
-			var i = 0;
-			foreach (var itemData in inventory)
-			{
-				items[i++].SetData(itemData.Key, itemData.Value);
-				if (i > items.Count)
-					break;
-			}
+			foreach (var itemData in inventory.Keys)
+				items.Add(
+					Instantiate(inventoryItemPrefab, inventoryGrid)
+						.SetData(itemData, inventory[itemData]));
 		}
 	}
 }

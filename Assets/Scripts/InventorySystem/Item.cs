@@ -1,25 +1,27 @@
-﻿using System;
-using Data;
+﻿using Data;
 using Player;
 using UnityEngine;
 
 namespace InventorySystem
 {
-	public abstract class Item: MonoBehaviour, ICollisionTarget
+	public class Item: MonoBehaviour, ICollisionTarget
 	{
 		[SerializeField] private ItemData data;
 
-		public virtual void Use(ItemUseData itemUseData)
-		{
-		}
+		private bool isActivated;
 
-		public virtual void OnCollision(GameObject other)
+		public void OnCollision(GameObject other)
 		{
+			if(isActivated)
+				return;
+			
 			var playerInventory = other.GetComponent<PlayerInventory>();
 			if (playerInventory == null)
 				return;
-			if(playerInventory.AddItems(data))
-				Destroy(gameObject);
+			
+			playerInventory.AddItems(data);
+			isActivated = true;
+			Destroy(gameObject);
 		}
 
 		public override bool Equals(object obj)
@@ -32,7 +34,7 @@ namespace InventorySystem
 			return Equals(other);
 		}
 
-		protected bool Equals(Item other)
+		public bool Equals(Item other)
 		{
 			return data.Equals(other.data);
 		}
