@@ -3,24 +3,31 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
+	[RequireComponent(typeof(Player))]
 	[RequireComponent(typeof(CharacterController))]
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField] private Camera playerCamera;
-		[SerializeField] private float movementSpeed;
 		[SerializeField] private float mouseSensitivity;
 		[SerializeField] private float maxYRotation = 360;
 		[SerializeField] private float minYRotation = -90;
-		
+
+		private Player player;
 		private PlayerInputActions inputActions;
 		private CharacterController characterController;
+
+		private PlayerStats Stats => player.playerStats;
 
 		private void Awake()
 		{
 			characterController = GetComponent<CharacterController>();
+			player = GetComponent<Player>();
+			
+		}
 
-			inputActions = new PlayerInputActions();
-			inputActions.Enable();
+		private void Start()
+		{
+			inputActions = player.InputActions;
 			inputActions.Controls.Action1.performed += Action1;
 			inputActions.Controls.Action2.performed += Action2;
 			inputActions.Controls.Interact.performed += Interact;
@@ -33,6 +40,14 @@ namespace Player
 			RotateCamera();
 		}
 
+		private void OnDestroy()
+		{
+			inputActions.Controls.Action1.performed -= Action1;
+			inputActions.Controls.Action2.performed -= Action2;
+			inputActions.Controls.Interact.performed -= Interact;
+			inputActions.Controls.Jump.performed -= Jump;
+		}
+
 		private void Move()
 		{
 			var forward = inputActions.Movement.Forward.ReadValue<float>();
@@ -40,7 +55,7 @@ namespace Player
 			var direction = new Vector3(right, 0, forward);
 			
 			direction = transform.TransformDirection(direction);
-			characterController.Move(direction * (movementSpeed * Time.deltaTime));
+			characterController.Move(direction * (Stats.MovementSpeed * Time.deltaTime));
 		}
 
 		private void RotateCamera()

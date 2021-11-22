@@ -4,13 +4,14 @@ using UnityEngine.UI;
 
 namespace UI
 {
-	public class MainMenu : UIElement
+	public class MainMenu : UIElementSingleton<MainMenu>
 	{
 		[SerializeField] private Button playButton;
 		[SerializeField] private Button exitButton;
 
 		protected override void OnAwake()
 		{
+			base.OnAwake();
 			playButton.onClick.AddListener(StartFirstLevel);
 			exitButton.onClick.AddListener(Quit);
 		}

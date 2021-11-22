@@ -274,6 +274,33 @@ namespace Player
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""e6615871-54dd-4252-9aed-35e0a3c3e775"",
+            ""actions"": [
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ac7a23e-bf35-43ad-b9db-5a2ed1ed1081"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""d5ff5fdc-d350-4034-926f-cebb0d2364bf"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -289,6 +316,9 @@ namespace Player
             m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
             m_Controls_Action1 = m_Controls.FindAction("Action1", throwIfNotFound: true);
             m_Controls_Action2 = m_Controls.FindAction("Action2", throwIfNotFound: true);
+            // UI
+            m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+            m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -440,6 +470,39 @@ namespace Player
             }
         }
         public ControlsActions @Controls => new ControlsActions(this);
+
+        // UI
+        private readonly InputActionMap m_UI;
+        private IUIActions m_UIActionsCallbackInterface;
+        private readonly InputAction m_UI_Inventory;
+        public struct UIActions
+        {
+            private @PlayerInputActions m_Wrapper;
+            public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
+            public InputActionMap Get() { return m_Wrapper.m_UI; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+            public void SetCallbacks(IUIActions instance)
+            {
+                if (m_Wrapper.m_UIActionsCallbackInterface != null)
+                {
+                    @Inventory.started -= m_Wrapper.m_UIActionsCallbackInterface.OnInventory;
+                    @Inventory.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnInventory;
+                    @Inventory.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnInventory;
+                }
+                m_Wrapper.m_UIActionsCallbackInterface = instance;
+                if (instance != null)
+                {
+                    @Inventory.started += instance.OnInventory;
+                    @Inventory.performed += instance.OnInventory;
+                    @Inventory.canceled += instance.OnInventory;
+                }
+            }
+        }
+        public UIActions @UI => new UIActions(this);
         public interface IMovementActions
         {
             void OnForward(InputAction.CallbackContext context);
@@ -452,6 +515,10 @@ namespace Player
             void OnInteract(InputAction.CallbackContext context);
             void OnAction1(InputAction.CallbackContext context);
             void OnAction2(InputAction.CallbackContext context);
+        }
+        public interface IUIActions
+        {
+            void OnInventory(InputAction.CallbackContext context);
         }
     }
 }
