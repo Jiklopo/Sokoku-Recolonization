@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -15,37 +16,43 @@ namespace Player
 		private Player player;
 		private PlayerInputActions inputActions;
 		private CharacterController characterController;
+		private Coroutine jumpCoroutine;
+		private int jumpsPerformed;
+		private bool isJumping;
 
 		private PlayerStats Stats => player.playerStats;
+		private bool CanJump => jumpsPerformed < Stats.MaxJumpAmount;
 
 		private void Awake()
 		{
 			characterController = GetComponent<CharacterController>();
 			player = GetComponent<Player>();
-			
 		}
 
 		private void Start()
 		{
 			inputActions = player.InputActions;
-			inputActions.Controls.Action1.performed += Action1;
-			inputActions.Controls.Action2.performed += Action2;
+			inputActions.Controls.PrimaryAttack.performed += PrimaryAttack;
+			inputActions.Controls.SecondaryAttack.performed += SecondaryAttack;
 			inputActions.Controls.Interact.performed += Interact;
-			inputActions.Controls.Jump.performed += Jump;
+			inputActions.Controls.Jump.started += StartJump;
+			inputActions.Controls.Jump.canceled += EndJump;
 		}
+
 
 		private void Update()
 		{
 			Move();
 			RotateCamera();
+			TryResetJumpCounter();
 		}
 
 		private void OnDestroy()
 		{
-			inputActions.Controls.Action1.performed -= Action1;
-			inputActions.Controls.Action2.performed -= Action2;
+			inputActions.Controls.PrimaryAttack.performed -= PrimaryAttack;
+			inputActions.Controls.SecondaryAttack.performed -= SecondaryAttack;
 			inputActions.Controls.Interact.performed -= Interact;
-			inputActions.Controls.Jump.performed -= Jump;
+			inputActions.Controls.Jump.performed -= StartJump;
 		}
 
 		private void Move()
@@ -53,9 +60,11 @@ namespace Player
 			var forward = inputActions.Movement.Forward.ReadValue<float>();
 			var right = inputActions.Movement.Right.ReadValue<float>();
 			var direction = new Vector3(right, 0, forward);
-			
+
 			direction = transform.TransformDirection(direction);
 			characterController.Move(direction * (Stats.MovementSpeed * Time.deltaTime));
+			if (!isJumping)
+				characterController.SimpleMove(Vector3.zero);
 		}
 
 		private void RotateCamera()
@@ -65,13 +74,43 @@ namespace Player
 
 			var cameraTransform = playerCamera.transform;
 			var cameraRotation = pointerDelta.y * mouseSensitivity * Time.deltaTime;
-			cameraRotation = Mathf.Clamp(cameraTransform.localRotation.eulerAngles.x - cameraRotation, minYRotation, maxYRotation);
+			cameraRotation = Mathf.Clamp(cameraTransform.localRotation.eulerAngles.x - cameraRotation, minYRotation,
+				maxYRotation);
 			cameraTransform.localRotation = Quaternion.Euler(cameraRotation, 0, 0);
 		}
 
-		private void Jump(InputAction.CallbackContext context)
+		private void StartJump(InputAction.CallbackContext context)
 		{
-			throw new System.NotImplementedException();
+			if (!CanJump)
+				return;
+
+			jumpCoroutine = StartCoroutine(JumpCoroutine());
+		}
+
+		private void EndJump(InputAction.CallbackContext obj)
+		{
+			StopCoroutine(jumpCoroutine);
+			isJumping = false;
+			jumpsPerformed++;
+		}
+
+		private IEnumerator JumpCoroutine()
+		{
+			isJumping = true;
+			var tr = transform;
+			var step = new WaitForEndOfFrame();
+			var targetHeight = tr.position.y + Stats.JumpHeight;
+			while (tr.position.y < targetHeight)
+			{
+				yield return step;
+				characterController.Move(Vector3.up * (Stats.JumpHeight * Time.deltaTime));
+			}
+		}
+
+		private void TryResetJumpCounter()
+		{
+			if (characterController.isGrounded)
+				jumpsPerformed = 0;
 		}
 
 		private void Interact(InputAction.CallbackContext context)
@@ -79,12 +118,12 @@ namespace Player
 			throw new System.NotImplementedException();
 		}
 
-		private void Action2(InputAction.CallbackContext context)
+		private void SecondaryAttack(InputAction.CallbackContext context)
 		{
 			throw new System.NotImplementedException();
 		}
 
-		private void Action1(InputAction.CallbackContext context)
+		private void PrimaryAttack(InputAction.CallbackContext context)
 		{
 			throw new System.NotImplementedException();
 		}
