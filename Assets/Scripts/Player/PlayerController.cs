@@ -20,6 +20,7 @@ namespace Player
 		private int jumpsPerformed;
 		private bool isJumping;
 		private bool isSprinting;
+		private bool canDash = true;
 
 		private PlayerStats Stats => player.playerStats;
 		private bool CanJump => jumpsPerformed < Stats.MaxJumpAmount;
@@ -36,6 +37,7 @@ namespace Player
 			inputActions.Controls.PrimaryAttack.performed += PrimaryAttack;
 			inputActions.Controls.SecondaryAttack.performed += SecondaryAttack;
 			inputActions.Controls.Sprint.performed += ToggleSprint;
+			inputActions.Controls.Dash.performed += Dash;
 			inputActions.Controls.Jump.started += StartJump;
 			inputActions.Controls.Jump.canceled += EndJump;
 			inputActions.Controls.Interact.performed += Interact;
@@ -84,9 +86,24 @@ namespace Player
 			cameraTransform.localRotation = Quaternion.Euler(cameraRotation, 0, 0);
 		}
 
-		private void ToggleSprint(InputAction.CallbackContext obj)
+		private void ToggleSprint(InputAction.CallbackContext context)
 		{
 			isSprinting = !isSprinting;
+		}
+
+		private void Dash(InputAction.CallbackContext context)
+		{
+			if (!canDash)
+				return;
+			characterController.Move(transform.forward * Stats.DashDistance);
+			canDash = false;
+			StartCoroutine(ResetDashRoutine());
+		}
+
+		private IEnumerator ResetDashRoutine()
+		{
+			yield return new WaitForSeconds(Stats.DashCooldown);
+			canDash = true;
 		}
 
 		private void StartJump(InputAction.CallbackContext context)
@@ -97,7 +114,7 @@ namespace Player
 			jumpCoroutine = StartCoroutine(JumpCoroutine());
 		}
 
-		private void EndJump(InputAction.CallbackContext obj)
+		private void EndJump(InputAction.CallbackContext context)
 		{
 			StopCoroutine(jumpCoroutine);
 			isJumping = false;

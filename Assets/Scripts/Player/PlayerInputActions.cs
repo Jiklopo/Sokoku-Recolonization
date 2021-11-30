@@ -234,6 +234,14 @@ namespace Player
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Dash"",
+                    ""type"": ""Button"",
+                    ""id"": ""f20558e9-6651-4fe1-bde1-23c264830fb8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -291,6 +299,17 @@ namespace Player
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48db9aeb-2b5c-49e7-9402-77ea1cce5a8b"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dash"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -336,6 +355,7 @@ namespace Player
             m_Controls_PrimaryAttack = m_Controls.FindAction("PrimaryAttack", throwIfNotFound: true);
             m_Controls_SecondaryAttack = m_Controls.FindAction("SecondaryAttack", throwIfNotFound: true);
             m_Controls_Sprint = m_Controls.FindAction("Sprint", throwIfNotFound: true);
+            m_Controls_Dash = m_Controls.FindAction("Dash", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
@@ -442,6 +462,7 @@ namespace Player
         private readonly InputAction m_Controls_PrimaryAttack;
         private readonly InputAction m_Controls_SecondaryAttack;
         private readonly InputAction m_Controls_Sprint;
+        private readonly InputAction m_Controls_Dash;
         public struct ControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -451,6 +472,7 @@ namespace Player
             public InputAction @PrimaryAttack => m_Wrapper.m_Controls_PrimaryAttack;
             public InputAction @SecondaryAttack => m_Wrapper.m_Controls_SecondaryAttack;
             public InputAction @Sprint => m_Wrapper.m_Controls_Sprint;
+            public InputAction @Dash => m_Wrapper.m_Controls_Dash;
             public InputActionMap Get() { return m_Wrapper.m_Controls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -475,6 +497,9 @@ namespace Player
                     @Sprint.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSprint;
                     @Sprint.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSprint;
                     @Sprint.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSprint;
+                    @Dash.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnDash;
+                    @Dash.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnDash;
+                    @Dash.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnDash;
                 }
                 m_Wrapper.m_ControlsActionsCallbackInterface = instance;
                 if (instance != null)
@@ -494,6 +519,9 @@ namespace Player
                     @Sprint.started += instance.OnSprint;
                     @Sprint.performed += instance.OnSprint;
                     @Sprint.canceled += instance.OnSprint;
+                    @Dash.started += instance.OnDash;
+                    @Dash.performed += instance.OnDash;
+                    @Dash.canceled += instance.OnDash;
                 }
             }
         }
@@ -544,6 +572,7 @@ namespace Player
             void OnPrimaryAttack(InputAction.CallbackContext context);
             void OnSecondaryAttack(InputAction.CallbackContext context);
             void OnSprint(InputAction.CallbackContext context);
+            void OnDash(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
