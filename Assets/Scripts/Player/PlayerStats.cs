@@ -17,7 +17,7 @@ namespace Player
 		public float CriticalChance => criticalChance;
 		public float CriticalMultiplier => criticalMultiplier;
 		public float JumpHeight => jumpHeight;
-		public int MaxJumpAmount => maxJumpAmount;
+		public int MaxJumps => maxJumps;
 
 		[SerializeField] private float maxHealth = 100;
 		[SerializeField] private float damage = 10;
@@ -29,7 +29,7 @@ namespace Player
 		[SerializeField] private float criticalChance = 10;
 		[SerializeField] private float criticalMultiplier = 10;
 		[SerializeField] private float jumpHeight = 10;
-		[SerializeField] private int maxJumpAmount = 2;
+		[SerializeField] private int maxJumps = 2;
 
 		public void BoostStats(ItemData item, int amount)
 		{
@@ -52,6 +52,11 @@ namespace Player
 			movementSpeed += item.movementSpeedBoost * sign;
 			criticalChance += item.criticalChanceBoost * sign;
 			criticalMultiplier += item.criticalMultiplierBoost * sign;
+			sprintSpeedMultiplier += item.sprintSpeedMultiplierBoost * sign;
+			dashDistance += item.dashDistanceBoost * sign;
+			dashCooldown -= item.dashCooldownBoost * sign;
+			jumpHeight += item.jumpHeightBoost * sign;
+			maxJumps += item.maxJumpsBoost;
 		}
 	}
 }

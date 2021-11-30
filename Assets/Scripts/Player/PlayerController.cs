@@ -23,7 +23,7 @@ namespace Player
 		private bool canDash = true;
 
 		private PlayerStats Stats => player.playerStats;
-		private bool CanJump => jumpsPerformed < Stats.MaxJumpAmount;
+		private bool CanJump => jumpsPerformed < Stats.MaxJumps;
 
 		private void Awake()
 		{

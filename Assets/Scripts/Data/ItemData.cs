@@ -15,8 +15,13 @@ namespace Data
 		public int damageBoost;
 		public float attackSpeedBoost;
 		public float movementSpeedBoost;
+		public float sprintSpeedMultiplierBoost;
+		public float dashDistanceBoost;
+		public float dashCooldownBoost;
 		public float criticalChanceBoost;
 		public float criticalMultiplierBoost;
+		public float jumpHeightBoost;
+		public int maxJumpsBoost;
 
 		public bool Equals(ItemData other)
 		{
