@@ -19,6 +19,7 @@ namespace Player
 		private Coroutine jumpCoroutine;
 		private int jumpsPerformed;
 		private bool isJumping;
+		private bool isSprinting;
 
 		private PlayerStats Stats => player.playerStats;
 		private bool CanJump => jumpsPerformed < Stats.MaxJumpAmount;
@@ -34,11 +35,11 @@ namespace Player
 			inputActions = player.InputActions;
 			inputActions.Controls.PrimaryAttack.performed += PrimaryAttack;
 			inputActions.Controls.SecondaryAttack.performed += SecondaryAttack;
-			inputActions.Controls.Interact.performed += Interact;
+			inputActions.Controls.Sprint.performed += ToggleSprint;
 			inputActions.Controls.Jump.started += StartJump;
 			inputActions.Controls.Jump.canceled += EndJump;
+			inputActions.Controls.Interact.performed += Interact;
 		}
-
 
 		private void Update()
 		{
@@ -61,10 +62,14 @@ namespace Player
 			var right = inputActions.Movement.Right.ReadValue<float>();
 			var direction = new Vector3(right, 0, forward);
 
-			direction = transform.TransformDirection(direction);
-			characterController.Move(direction * (Stats.MovementSpeed * Time.deltaTime));
+			direction = transform.TransformDirection(direction) * (Stats.MovementSpeed * Time.deltaTime);
+			if (direction == Vector3.zero)
+				isSprinting = false;
+			if (isSprinting)
+				direction *= Stats.SprintSpeedMultiplier;
 			if (!isJumping)
 				characterController.SimpleMove(Vector3.zero);
+			characterController.Move(direction);
 		}
 
 		private void RotateCamera()
@@ -77,6 +82,11 @@ namespace Player
 			cameraRotation = Mathf.Clamp(cameraTransform.localRotation.eulerAngles.x - cameraRotation, minYRotation,
 				maxYRotation);
 			cameraTransform.localRotation = Quaternion.Euler(cameraRotation, 0, 0);
+		}
+
+		private void ToggleSprint(InputAction.CallbackContext obj)
+		{
+			isSprinting = !isSprinting;
 		}
 
 		private void StartJump(InputAction.CallbackContext context)

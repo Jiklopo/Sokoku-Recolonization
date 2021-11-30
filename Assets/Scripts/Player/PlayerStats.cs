@@ -11,6 +11,7 @@ namespace Player
 		public float Damage => damage;
 		public float AttackSpeed => attackSpeed;
 		public float MovementSpeed => movementSpeed;
+		public float SprintSpeedMultiplier => sprintSpeedMultiplier;
 		public float CriticalChance => criticalChance;
 		public float CriticalMultiplier => criticalMultiplier;
 		public float JumpHeight => jumpHeight;
@@ -20,6 +21,7 @@ namespace Player
 		[SerializeField] private float damage = 10;
 		[SerializeField] private float attackSpeed = 10;
 		[SerializeField] private float movementSpeed = 10;
+		[SerializeField] private float sprintSpeedMultiplier = 1.25f;
 		[SerializeField] private float criticalChance = 10;
 		[SerializeField] private float criticalMultiplier = 10;
 		[SerializeField] private float jumpHeight = 10;

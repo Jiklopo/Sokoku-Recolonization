@@ -226,6 +226,14 @@ namespace Player
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""b1955eb6-e19d-4dfc-b39c-963b372343a9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -272,6 +280,17 @@ namespace Player
                     ""action"": ""SecondaryAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da7bb333-b38a-4b38-9a70-338142740fec"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -316,6 +335,7 @@ namespace Player
             m_Controls_Interact = m_Controls.FindAction("Interact", throwIfNotFound: true);
             m_Controls_PrimaryAttack = m_Controls.FindAction("PrimaryAttack", throwIfNotFound: true);
             m_Controls_SecondaryAttack = m_Controls.FindAction("SecondaryAttack", throwIfNotFound: true);
+            m_Controls_Sprint = m_Controls.FindAction("Sprint", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
@@ -421,6 +441,7 @@ namespace Player
         private readonly InputAction m_Controls_Interact;
         private readonly InputAction m_Controls_PrimaryAttack;
         private readonly InputAction m_Controls_SecondaryAttack;
+        private readonly InputAction m_Controls_Sprint;
         public struct ControlsActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -429,6 +450,7 @@ namespace Player
             public InputAction @Interact => m_Wrapper.m_Controls_Interact;
             public InputAction @PrimaryAttack => m_Wrapper.m_Controls_PrimaryAttack;
             public InputAction @SecondaryAttack => m_Wrapper.m_Controls_SecondaryAttack;
+            public InputAction @Sprint => m_Wrapper.m_Controls_Sprint;
             public InputActionMap Get() { return m_Wrapper.m_Controls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -450,6 +472,9 @@ namespace Player
                     @SecondaryAttack.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSecondaryAttack;
                     @SecondaryAttack.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSecondaryAttack;
                     @SecondaryAttack.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSecondaryAttack;
+                    @Sprint.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSprint;
+                    @Sprint.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSprint;
+                    @Sprint.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnSprint;
                 }
                 m_Wrapper.m_ControlsActionsCallbackInterface = instance;
                 if (instance != null)
@@ -466,6 +491,9 @@ namespace Player
                     @SecondaryAttack.started += instance.OnSecondaryAttack;
                     @SecondaryAttack.performed += instance.OnSecondaryAttack;
                     @SecondaryAttack.canceled += instance.OnSecondaryAttack;
+                    @Sprint.started += instance.OnSprint;
+                    @Sprint.performed += instance.OnSprint;
+                    @Sprint.canceled += instance.OnSprint;
                 }
             }
         }
@@ -515,6 +543,7 @@ namespace Player
             void OnInteract(InputAction.CallbackContext context);
             void OnPrimaryAttack(InputAction.CallbackContext context);
             void OnSecondaryAttack(InputAction.CallbackContext context);
+            void OnSprint(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
