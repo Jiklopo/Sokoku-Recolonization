@@ -38,7 +38,7 @@ namespace InventorySystem
 			chanceMapping = new Dictionary<int, int>();
 			for (var i = 0; i < Items.Length; i++)
 			for (var j = 0; j < Items[i].dropChanceWeight; j++)
-				chanceMapping.Add(++cnt, i);
+				chanceMapping.Add(cnt++, i);
 		}
 	}
 }
