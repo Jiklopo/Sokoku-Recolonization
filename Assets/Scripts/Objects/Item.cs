@@ -1,14 +1,22 @@
-﻿using Data;
+﻿using System;
+using Data;
 using Player;
 using UnityEngine;
 
 namespace InventorySystem
 {
+	[RequireComponent(typeof(SpriteRenderer))]
 	public class Item: MonoBehaviour, ICollisionTarget
 	{
 		[SerializeField] private ItemData data;
 
 		private bool isActivated;
+		private SpriteRenderer spriteRenderer;
+
+		private void Awake()
+		{
+			spriteRenderer = GetComponent<SpriteRenderer>();
+		}
 
 		public void OnCollision(GameObject other)
 		{
@@ -22,6 +30,13 @@ namespace InventorySystem
 			playerInventory.AddItems(data);
 			isActivated = true;
 			Destroy(gameObject);
+		}
+
+		public Item SetData(ItemData itemData)
+		{
+			data = itemData;
+			spriteRenderer.sprite = itemData.icon;
+			return this;
 		}
 
 		public override bool Equals(object obj)
