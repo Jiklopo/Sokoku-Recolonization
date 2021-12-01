@@ -13,7 +13,7 @@ namespace UI
 
 		public InventoryItem SetData(ItemData itemData, int amount)
 		{
-			itemImage.sprite = itemData.icon;
+			itemImage.sprite = itemData.sprite;
 			countText.SetText(amount.ToString());
 			return this;
 		}

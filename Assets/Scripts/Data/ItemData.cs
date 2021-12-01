@@ -7,7 +7,7 @@ namespace Data
 	public class ItemData
 	{
 		[Header("Game Data")]
-		public Sprite icon;
+		public Sprite sprite;
 		public string name;
 		public int dropChanceWeight;
 

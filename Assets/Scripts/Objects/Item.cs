@@ -35,7 +35,7 @@ namespace InventorySystem
 		public Item SetData(ItemData itemData)
 		{
 			data = itemData;
-			spriteRenderer.sprite = itemData.icon;
+			spriteRenderer.sprite = itemData.sprite;
 			return this;
 		}
 
