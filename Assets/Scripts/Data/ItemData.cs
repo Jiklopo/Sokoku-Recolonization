@@ -6,9 +6,10 @@ namespace Data
 	[Serializable]
 	public class ItemData
 	{
-		[Header("Item Data")]
+		[Header("Game Data")]
 		public Sprite icon;
 		public string name;
+		public int dropChanceWeight;
 
 		[Header("Stats Boost")] 
 		public int healthBoost;
