@@ -197,7 +197,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Action1",
+                    "name": "PrimaryAttack",
                     "type": "Button",
                     "id": "738fab7c-3361-4b4a-a05c-b5fed4677a1c",
                     "expectedControlType": "Button",
@@ -205,9 +205,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Action2",
+                    "name": "SecondaryAttack",
                     "type": "Button",
                     "id": "68d5c791-734c-4d70-b5a3-2e90060ad153",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "b1955eb6-e19d-4dfc-b39c-963b372343a9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "f20558e9-6651-4fe1-bde1-23c264830fb8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -243,7 +259,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Action1",
+                    "action": "PrimaryAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -254,7 +270,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Action2",
+                    "action": "SecondaryAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da7bb333-b38a-4b38-9a70-338142740fec",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48db9aeb-2b5c-49e7-9402-77ea1cce5a8b",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
