@@ -1,15 +1,16 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using Utilities;
 
 namespace Player
 {
-	public class Player : MonoBehaviour
+	public class Player : Singleton<Player>
 	{
 		public PlayerInputActions InputActions { get; private set; }
 		public PlayerStats playerStats = new PlayerStats();
 
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
 			InputActions = new PlayerInputActions();
 		}
 

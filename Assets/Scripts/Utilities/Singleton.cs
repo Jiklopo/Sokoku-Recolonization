@@ -6,6 +6,8 @@ namespace Utilities
 	public abstract class Singleton<T> : MonoBehaviour where T: Component
 	{
 		public static T Instance { get; protected set; }
+
+		[SerializeField] private bool dontDestroyOnLoad;
 		
 		protected virtual void Awake()
 		{
@@ -16,7 +18,14 @@ namespace Utilities
 			}
 
 			Instance = this as T;
-			DontDestroyOnLoad(this);
+			if(dontDestroyOnLoad)
+				DontDestroyOnLoad(this);
+		}
+
+		protected void OnDestroy()
+		{
+			if (Instance == this)
+				Instance = null;
 		}
 	}
 }
