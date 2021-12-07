@@ -144,7 +144,7 @@ namespace Player
 
 		private void Interact(InputAction.CallbackContext context)
 		{
-			var tr = transform;
+			var tr = playerCamera.transform;
 			var raycastResults = Physics.RaycastAll(tr.position, tr.forward, InteractionDistance);
 			foreach (var raycastResult in raycastResults)
 			{
@@ -160,6 +160,13 @@ namespace Player
 		private void PrimaryAttack(InputAction.CallbackContext context)
 		{
 			throw new System.NotImplementedException();
+		}
+
+		private void OnDrawGizmos()
+		{
+			var tr = playerCamera.transform;
+			Gizmos.color = Color.green;
+			Gizmos.DrawRay(tr.position, tr.forward * InteractionDistance);
 		}
 	}
 }
