@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Intefaces;
+using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
