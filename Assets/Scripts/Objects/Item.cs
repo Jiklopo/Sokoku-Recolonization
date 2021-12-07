@@ -35,7 +35,7 @@ namespace Objects
 		public Item SetData(ItemData itemData)
 		{
 			data = itemData;
-			spriteRenderer.sprite = itemData.sprite;
+			spriteRenderer.sprite = itemData.Sprite;
 			return this;
 		}
 

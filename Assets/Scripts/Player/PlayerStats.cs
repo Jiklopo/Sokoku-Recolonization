@@ -62,17 +62,17 @@ namespace Player
 		private void UpdateStats(ItemData item, bool isPositive)
 		{
 			var sign = isPositive ? 1 : -1;
-			maxHealth += item.healthBoost * sign;
-			damage += item.damageBoost * sign;
-			attackSpeed += item.attackSpeedBoost * sign;
-			movementSpeed += item.movementSpeedBoost * sign;
-			criticalChance += item.criticalChanceBoost * sign;
-			criticalMultiplier += item.criticalMultiplierBoost * sign;
-			sprintSpeedMultiplier += item.sprintSpeedMultiplierBoost * sign;
-			dashDistance += item.dashDistanceBoost * sign;
-			dashCooldown -= item.dashCooldownBoost * sign;
-			jumpHeight += item.jumpHeightBoost * sign;
-			maxJumps += item.maxJumpsBoost;
+			maxHealth += item.HealthBoost * sign;
+			damage += item.DamageBoost * sign;
+			attackSpeed += item.AttackSpeedBoost * sign;
+			movementSpeed += item.MovementSpeedBoost * sign;
+			criticalChance += item.CriticalChanceBoost * sign;
+			criticalMultiplier += item.CriticalMultiplierBoost * sign;
+			sprintSpeedMultiplier += item.SprintSpeedMultiplierBoost * sign;
+			dashDistance += item.DashDistanceBoost * sign;
+			dashCooldown -= item.DashCooldownBoost * sign;
+			jumpHeight += item.JumpHeightBoost * sign;
+			maxJumps += item.MaxJumpsBoost;
 		}
 	}
 }
