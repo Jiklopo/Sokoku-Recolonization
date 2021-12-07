@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748456ebacdf4648be083c50b8838b04, type: 3}
   m_Name: Test Item 1
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 241ab274d32ef914298de8c3a10bd685, type: 3}
   name: Test Item 1
   description: Test Item 1 Desription
   dropChanceWeight: 1
