@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Intefaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,9 +10,6 @@ namespace Player
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField] private Camera playerCamera;
-		[SerializeField] private float mouseSensitivity;
-		[SerializeField] private float maxYRotation = 360;
-		[SerializeField] private float minYRotation = -90;
 
 		private Player player;
 		private PlayerInputActions inputActions;
@@ -23,6 +21,10 @@ namespace Player
 		private bool canDash = true;
 
 		private PlayerStats Stats => player.playerStats;
+		private float MouseSensitivity => Stats.MouseSensitivity;
+		private float MaxYRotation => Stats.MaxYRotation;
+		private float MinYRotation => Stats.MinYRotation;
+		private float InteractionDistance => Stats.InteractionDistance;
 		private bool CanJump => jumpsPerformed < Stats.MaxJumps;
 
 		private void Awake()
@@ -77,12 +79,12 @@ namespace Player
 		private void RotateCamera()
 		{
 			var pointerDelta = inputActions.Movement.PointerDelta.ReadValue<Vector2>();
-			transform.Rotate(Vector3.up * (mouseSensitivity * pointerDelta.x * Time.deltaTime));
+			transform.Rotate(Vector3.up * (MouseSensitivity * pointerDelta.x * Time.deltaTime));
 
 			var cameraTransform = playerCamera.transform;
-			var cameraRotation = pointerDelta.y * mouseSensitivity * Time.deltaTime;
-			cameraRotation = Mathf.Clamp(cameraTransform.localRotation.eulerAngles.x - cameraRotation, minYRotation,
-				maxYRotation);
+			var cameraRotation = pointerDelta.y * MouseSensitivity * Time.deltaTime;
+			cameraRotation = Mathf.Clamp(cameraTransform.localRotation.eulerAngles.x - cameraRotation, MinYRotation,
+				MaxYRotation);
 			cameraTransform.localRotation = Quaternion.Euler(cameraRotation, 0, 0);
 		}
 
@@ -142,7 +144,12 @@ namespace Player
 
 		private void Interact(InputAction.CallbackContext context)
 		{
-			throw new System.NotImplementedException();
+			var tr = transform;
+			var raycastResults = Physics.RaycastAll(tr.position, tr.forward, InteractionDistance);
+			foreach (var raycastResult in raycastResults)
+			{
+				raycastResult.transform.GetComponent<IInteractable>()?.OnInteract();
+			}
 		}
 
 		private void SecondaryAttack(InputAction.CallbackContext context)
