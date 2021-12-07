@@ -166,7 +166,10 @@ namespace Player
 		{
 			var tr = playerCamera.transform;
 			Gizmos.color = Color.green;
-			Gizmos.DrawRay(tr.position, tr.forward * InteractionDistance);
+			if (Application.isPlaying)
+			{
+				Gizmos.DrawRay(tr.position, tr.forward * InteractionDistance);
+			}
 		}
 	}
 }
