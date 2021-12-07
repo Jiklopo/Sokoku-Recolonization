@@ -7,6 +7,8 @@ namespace Player
 	[Serializable]
 	public class PlayerStats
 	{
+		#region Public Properties
+
 		public float MaxHealth => maxHealth;
 		public float Damage => damage;
 		public float AttackSpeed => attackSpeed;
@@ -18,7 +20,15 @@ namespace Player
 		public float CriticalMultiplier => criticalMultiplier;
 		public float JumpHeight => jumpHeight;
 		public int MaxJumps => maxJumps;
+		public float MouseSensitivity => mouseSensitivity;
+		public float MaxYRotation => maxYRotation;
+		public float MinYRotation => minYRotation;
+		public float InteractionDistance => interactionDistance;
 
+		#endregion
+
+
+		[Header("Game Stats")]
 		[SerializeField] private float maxHealth = 100;
 		[SerializeField] private float damage = 10;
 		[SerializeField] private float attackSpeed = 10;
@@ -30,6 +40,12 @@ namespace Player
 		[SerializeField] private float criticalMultiplier = 10;
 		[SerializeField] private float jumpHeight = 10;
 		[SerializeField] private int maxJumps = 2;
+
+		[Header("Player Controller")] 
+		[SerializeField] private float mouseSensitivity = 10;
+		[SerializeField] private float maxYRotation = 360;
+		[SerializeField] private float minYRotation = -90;
+		[SerializeField] private float interactionDistance = 5;
 
 		public void BoostStats(ItemData item, int amount)
 		{
@@ -46,17 +62,17 @@ namespace Player
 		private void UpdateStats(ItemData item, bool isPositive)
 		{
 			var sign = isPositive ? 1 : -1;
-			maxHealth += item.healthBoost * sign;
-			damage += item.damageBoost * sign;
-			attackSpeed += item.attackSpeedBoost * sign;
-			movementSpeed += item.movementSpeedBoost * sign;
-			criticalChance += item.criticalChanceBoost * sign;
-			criticalMultiplier += item.criticalMultiplierBoost * sign;
-			sprintSpeedMultiplier += item.sprintSpeedMultiplierBoost * sign;
-			dashDistance += item.dashDistanceBoost * sign;
-			dashCooldown -= item.dashCooldownBoost * sign;
-			jumpHeight += item.jumpHeightBoost * sign;
-			maxJumps += item.maxJumpsBoost;
+			maxHealth += item.HealthBoost * sign;
+			damage += item.DamageBoost * sign;
+			attackSpeed += item.AttackSpeedBoost * sign;
+			movementSpeed += item.MovementSpeedBoost * sign;
+			criticalChance += item.CriticalChanceBoost * sign;
+			criticalMultiplier += item.CriticalMultiplierBoost * sign;
+			sprintSpeedMultiplier += item.SprintSpeedMultiplierBoost * sign;
+			dashDistance += item.DashDistanceBoost * sign;
+			dashCooldown -= item.DashCooldownBoost * sign;
+			jumpHeight += item.JumpHeightBoost * sign;
+			maxJumps += item.MaxJumpsBoost;
 		}
 	}
 }

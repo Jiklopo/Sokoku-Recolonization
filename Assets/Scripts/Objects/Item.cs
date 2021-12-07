@@ -1,13 +1,13 @@
-﻿using System;
-using Data;
+﻿using Data;
 using Player;
 using UnityEngine;
 
-namespace InventorySystem
+namespace Objects
 {
 	[RequireComponent(typeof(SpriteRenderer))]
 	public class Item: MonoBehaviour, ICollisionTarget
 	{
+		public ItemData ItemData => data;
 		[SerializeField] private ItemData data;
 
 		private bool isActivated;
@@ -35,7 +35,7 @@ namespace InventorySystem
 		public Item SetData(ItemData itemData)
 		{
 			data = itemData;
-			spriteRenderer.sprite = itemData.sprite;
+			spriteRenderer.sprite = itemData.Sprite;
 			return this;
 		}
 

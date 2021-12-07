@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using Interfaces;
+using InventorySystem;
+using UnityEngine;
 
-namespace InventorySystem
+namespace Objects
 {
-	public class Chest : MonoBehaviour, ICollisionTarget
+	public class Chest : MonoBehaviour, IInteractable
 	{
 		[SerializeField] private Vector3 itemOffset;
 
 		private bool isUsed;
-		public void OnCollision(GameObject other)
+		public void OnInteract()
 		{
 			if (isUsed)
 				return;
