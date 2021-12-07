@@ -7,6 +7,7 @@ namespace Objects
 	[RequireComponent(typeof(SpriteRenderer))]
 	public class Item: MonoBehaviour, ICollisionTarget
 	{
+		public ItemData ItemData => data;
 		[SerializeField] private ItemData data;
 
 		private bool isActivated;
