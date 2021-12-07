@@ -1,4 +1,4 @@
-﻿using Intefaces;
+﻿using Interfaces;
 using InventorySystem;
 using UnityEngine;
 
