@@ -1,9 +1,8 @@
-﻿using System;
-using Data;
+﻿using Data;
 using Player;
 using UnityEngine;
 
-namespace InventorySystem
+namespace Objects
 {
 	[RequireComponent(typeof(SpriteRenderer))]
 	public class Item: MonoBehaviour, ICollisionTarget

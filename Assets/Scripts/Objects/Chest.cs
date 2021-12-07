@@ -1,7 +1,8 @@
 ﻿using Intefaces;
+using InventorySystem;
 using UnityEngine;
 
-namespace InventorySystem
+namespace Objects
 {
 	public class Chest : MonoBehaviour, IInteractable
 	{
