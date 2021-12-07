@@ -4,11 +4,13 @@ using UnityEngine;
 namespace Data
 {
 	[Serializable]
-	public class ItemData
+	[CreateAssetMenu(fileName = "Item Data", menuName = "Scriptable Objects/Item Data", order = 1)]
+	public class ItemData : ScriptableObject
 	{
 		[Header("Game Data")]
 		public Sprite sprite;
 		public string name;
+		public string description;
 		public int dropChanceWeight;
 
 		[Header("Stats Boost")] 

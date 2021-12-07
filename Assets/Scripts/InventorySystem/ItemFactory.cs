@@ -10,7 +10,7 @@ namespace InventorySystem
 	public class ItemFactory : Singleton<ItemFactory>
 	{
 		[SerializeField] private Item itemPrefab;
-		private ItemData[] Items => GlobalData.GameData.itemsInformation;
+		private ItemData[] Items => GlobalData.Items;
 		private Dictionary<int, int> chanceMapping = new Dictionary<int, int>();
 
 		private void Start()
