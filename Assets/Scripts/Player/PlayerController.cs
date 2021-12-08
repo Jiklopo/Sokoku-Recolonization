@@ -2,6 +2,7 @@
 using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utilities;
 
 namespace Player
 {
@@ -134,6 +135,8 @@ namespace Player
 				yield return step;
 				characterController.Move(Vector3.up * (Stats.JumpHeight * Time.deltaTime));
 			}
+
+			isJumping = false;
 		}
 
 		private void TryResetJumpCounter()
