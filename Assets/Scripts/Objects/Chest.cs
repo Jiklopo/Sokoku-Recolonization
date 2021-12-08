@@ -10,17 +10,18 @@ namespace Objects
 		[SerializeField] private Vector3 itemOffset;
 
 		private bool isUsed;
+
 		public void OnInteract()
 		{
 			if (isUsed)
 				return;
 
-			var item = ItemFactory.Instance.SpawnRandomItem(1);
-			 if (item == null)
-			 	return;
-			
-			 item.transform.position = transform.position + Vector3.up;
-			 isUsed = true;
+			var item = ItemFactory.Instance.SpawnRandomItem(1, transform);
+			if (item == null)
+				return;
+
+			item.transform.Translate(itemOffset);
+			isUsed = true;
 		}
 	}
 }

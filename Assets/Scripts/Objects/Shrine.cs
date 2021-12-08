@@ -22,8 +22,7 @@ namespace Objects
 
 			isUsed = true;
 			PlayerEntity.ReceiveDamage(damage);
-			var item = ItemFactory.Instance.SpawnRandomItem(dropChance);
-			item.transform.SetParent(transform);
+			var item = ItemFactory.Instance.SpawnRandomItem(dropChance, transform);
 			item.transform.Translate(itemOffset);
 			CustomLogger.Log($"Shrine({name}) dropped an item ({item.ItemData.name}");
 		}
