@@ -1,11 +1,12 @@
 ﻿using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Data
 {
 	[Serializable]
 	[CreateAssetMenu(fileName = "Item Data", menuName = "Scriptable Objects/Item Data", order = 1)]
-	public class ItemData : ScriptableObject
+	public class ItemData : ScriptableObject, IFactoryProduct
 	{
 		#region Public Properties
 

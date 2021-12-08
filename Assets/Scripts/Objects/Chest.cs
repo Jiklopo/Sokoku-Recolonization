@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using Factories;
+using Interfaces;
 using InventorySystem;
 using UnityEngine;
 
@@ -14,12 +15,12 @@ namespace Objects
 			if (isUsed)
 				return;
 
-			var item = ItemFactory.Instance.GetRandomItem(1);
-			if (item == null)
-				return;
+			var item = ItemFactory.Instance.SpawnRandomItem(1);
+			 if (item == null)
+			 	return;
 			
-			item.transform.position = transform.position + Vector3.up;
-			isUsed = true;
+			 item.transform.position = transform.position + Vector3.up;
+			 isUsed = true;
 		}
 	}
 }
