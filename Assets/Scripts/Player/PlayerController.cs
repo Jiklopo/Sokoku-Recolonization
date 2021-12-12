@@ -15,6 +15,8 @@ namespace Player
 	[RequireComponent(typeof(CharacterController))]
 	public class PlayerController : MonoBehaviour
 	{
+		public static Action<float> OnDash;
+		
 		[SerializeField] private Camera playerCamera;
 		[SerializeField] private GameObject katana;
 		[SerializeField] private AnimationData primaryAttackAnimationData;
@@ -36,7 +38,7 @@ namespace Player
 		private float MaxYRotation => Stats.MaxYRotation;
 		private float MinYRotation => Stats.MinYRotation;
 		private float InteractionDistance => Stats.InteractionDistance;
-		private bool CanJump => jumpsPerformed < Stats.MaxJumps;
+		private bool CanJump => jumpsPerformed < Stats.MaxJumps && Player.IsControllable;
 
 		private void Awake()
 		{
@@ -63,6 +65,9 @@ namespace Player
 
 		private void Update()
 		{
+			if (!Player.IsControllable)
+				return;
+			
 			Move();
 			RotateCamera();
 			TryResetJumpCounter();
@@ -109,10 +114,11 @@ namespace Player
 
 		private void Dash(InputAction.CallbackContext context)
 		{
-			if (!canDash)
+			if (!canDash || !Player.IsControllable)
 				return;
 			characterController.Move(transform.forward * Stats.DashDistance);
 			canDash = false;
+			OnDash?.Invoke(Stats.DashCooldown);
 			StartCoroutine(ResetDashRoutine());
 		}
 
@@ -143,7 +149,7 @@ namespace Player
 			var tr = transform;
 			var step = new WaitForEndOfFrame();
 			var targetHeight = tr.position.y + Stats.JumpHeight;
-			while (tr.position.y < targetHeight)
+			while (tr.position.y < targetHeight && Player.IsControllable)
 			{
 				yield return step;
 				characterController.Move(Vector3.up * (Stats.JumpHeight * Time.deltaTime));

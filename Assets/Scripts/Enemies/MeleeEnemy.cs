@@ -34,6 +34,9 @@ namespace Enemies
 
 		private void Update()
 		{
+			if (IsDead)
+				return;
+
 			if(!isAttacking && Vector3.Distance(transform.position, player.transform.position) <= attackRange)
 				Attack();
 		}

@@ -15,6 +15,7 @@ namespace Data
 		public string Description => description;
 		public int DropChanceWeight => dropChanceWeight;
 		public int HealthBoost => healthBoost;
+		public int HealthRegeneration => healthBoost;
 		public int DamageBoost => damageBoost;
 		public float AttackSpeedBoost => attackSpeedBoost;
 		public float MovementSpeedBoost => movementSpeedBoost;
@@ -37,6 +38,7 @@ namespace Data
 
 		[Header("Stats Boost")] 
 		[SerializeField] private int healthBoost;
+		[SerializeField] private int healthRegeneration;
 		[SerializeField] private int damageBoost;
 		[SerializeField] private float attackSpeedBoost;
 		[SerializeField] private float movementSpeedBoost;

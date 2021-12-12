@@ -19,6 +19,7 @@ namespace Enemies
 		[SerializeField] protected float attackCooldown;
 		[SerializeField] protected float speed;
 		[SerializeField] protected int spawnChanceWeight;
+		[SerializeField] protected float itemDropChance = 0.1f;
 
 		[Header("Animation Data")]
 		[SerializeField] protected AnimationData attackAnimationData;
@@ -69,7 +70,11 @@ namespace Enemies
 			agent.enabled = false;
 			CustomLogger.Log($"{name} died!", this);
 			animator.SetTrigger(deathAnimationData.TriggerHash);
-			ResourceFactory.Instance.GetRandomObject().transform.position = transform.position;
+			var position = transform.position;
+			ResourceFactory.Instance.GetRandomObject().transform.position = position;
+			var item = ItemFactory.Instance.SpawnRandomItem(itemDropChance);
+			if (item != null)
+				item.transform.position = position;
 			StartCoroutine(
 				DelayActionRoutine(deathAnimationData.Duration, () => Destroy(gameObject))
 			);
