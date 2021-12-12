@@ -1,4 +1,5 @@
-﻿using Factories;
+﻿using System;
+using Factories;
 using Interfaces;
 using InventorySystem;
 using UnityEngine;
@@ -12,16 +13,21 @@ namespace Objects
 		[SerializeField] [Range(0, 1)] private float dropChance;
 		[SerializeField] private Vector3 itemOffset;
 
-		private static IEntity PlayerEntity => Player.Player.Instance;
+		private Player.Player player;
 		private bool isUsed;
+
+		private void Awake()
+		{
+			player = FindObjectOfType<Player.Player>();
+		}
 
 		public void OnInteract()
 		{
-			if (isUsed || PlayerEntity.Health <= damage)
+			if (isUsed || player.Health <= damage)
 				return;
 
 			isUsed = true;
-			PlayerEntity.ReceiveDamage(damage);
+			player.ReceiveDamage(damage);
 			var item = ItemFactory.Instance.SpawnRandomItem(dropChance, transform);
 			item.transform.Translate(itemOffset);
 			CustomLogger.Log($"Shrine({name}) dropped an item ({item.ItemData.name}");

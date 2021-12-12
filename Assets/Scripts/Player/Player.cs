@@ -5,18 +5,22 @@ using Utilities;
 
 namespace Player
 {
-	public class Player : Singleton<Player>, IEntity
+	public class Player : MonoBehaviour, IEntity
 	{
+		public static bool IsControllable = true;
 		public PlayerInputActions InputActions { get; private set; }
 		public PlayerStats playerStats = new PlayerStats();
 		public float Health => health;
 		private float health;
 
-		protected override void Awake()
+		private void Awake()
 		{
-			base.Awake();
 			InputActions = new PlayerInputActions();
 			health = playerStats.MaxHealth;
+			playerStats.SetPlayer(this);
+			GameBus.OnGameCompleted += CommitDie;
+			GameBus.OnGameOver += CommitDie;
+			IsControllable = true;
 		}
 
 		private void OnEnable()
@@ -29,6 +33,12 @@ namespace Player
 			InputActions.Disable();
 		}
 
+		private void OnDestroy()
+		{
+			GameBus.OnGameCompleted -= CommitDie;
+			GameBus.OnGameOver -= CommitDie;
+		}
+		
 		private void OnControllerColliderHit(ControllerColliderHit hit)
 		{
 			hit.gameObject.GetComponent<ICollisionTarget>()?.OnCollision(gameObject);
@@ -51,9 +61,14 @@ namespace Player
 
 		private void Die()
 		{
-			GameBus.OnGameOver.Invoke();
+			GameBus.OnGameOver?.Invoke();
 			Debug.Log("Смерть пришла незаметно...");
-			Destroy(gameObject);
+			CommitDie();
+		}
+
+		private void CommitDie()
+		{
+			IsControllable = false;
 		}
 	}
 }

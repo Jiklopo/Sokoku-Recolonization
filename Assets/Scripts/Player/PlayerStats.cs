@@ -47,6 +47,8 @@ namespace Player
 		[SerializeField] private float minYRotation = -90;
 		[SerializeField] private float interactionDistance = 5;
 
+		private Player player;
+
 		public void BoostStats(ItemData item, int amount)
 		{
 			for (var i = 0; i < amount; i++)
@@ -57,6 +59,11 @@ namespace Player
 		{
 			for (var i = 0; i < amount; i++)
 				UpdateStats(item, false);
+		}
+
+		public void SetPlayer(Player player)
+		{
+			this.player = player;
 		}
 
 		private void UpdateStats(ItemData item, bool isPositive)
@@ -73,6 +80,11 @@ namespace Player
 			dashCooldown -= item.DashCooldownBoost * sign;
 			jumpHeight += item.JumpHeightBoost * sign;
 			maxJumps += item.MaxJumpsBoost;
+
+			if (isPositive)
+			{
+				player.ReceiveHeal(item.HealthBoost);
+			}
 		}
 	}
 }

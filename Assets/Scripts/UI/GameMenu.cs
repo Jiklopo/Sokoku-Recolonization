@@ -1,5 +1,4 @@
-﻿using Events;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,43 +7,29 @@ namespace UI
 	public class GameMenu : UIElementSingleton<GameMenu>
 	{
 		[SerializeField] private Button resumeButton;
+		[SerializeField] private Button restartButton;
 		[SerializeField] private Button menuButton;
+		[SerializeField] private Button quitButton;
+
 		protected override void OnAwake()
 		{
 			base.OnAwake();
-			resumeButton.onClick.AddListener(ResumeGame);
-			menuButton.onClick.AddListener(GoToMenu);
-			GameBus.OnGamePaused += OnGamePaused;
-		}
-
-		private void OnDestroy()
-		{
-			GameBus.OnGamePaused -= OnGamePaused;
-			Time.timeScale = 1;
-		}
-
-		private void OnGamePaused()
-		{
-			if (IsShown)
-				ResumeGame();
-			else
-				Show();
-		}
-
-		private void ResumeGame()
-		{
-			Time.timeScale = 1;
-			Close();
-		}
-
-		private void GoToMenu()
-		{
-			SceneManager.LoadScene(0);
+			resumeButton.onClick.AddListener(CloseInstance);
+			restartButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex));
+			menuButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+			quitButton.onClick.AddListener(Application.Quit);
 		}
 
 		protected override void OnShown()
 		{
-			Time.timeScale = 0;
+			Cursor.visible = true;
+			Player.Player.IsControllable = false;
+		}
+
+		protected override void OnClosed()
+		{
+			Cursor.visible = false;
+			Player.Player.IsControllable = true;
 		}
 	}
 }

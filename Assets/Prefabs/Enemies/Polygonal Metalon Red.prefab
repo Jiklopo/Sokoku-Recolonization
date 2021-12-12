@@ -393,11 +393,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ba1722d774c4c8e9aefa89883691b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 0
-  baseDamage: 0
-  attackCooldown: 0
+  baseHealth: 10
+  baseDamage: 10
+  attackCooldown: 2
   speed: 4
   spawnChanceWeight: 5
+  itemDropChance: 0.025
   attackAnimationData:
     Duration: 0.833
     TriggerName: Attack
@@ -405,9 +406,9 @@ MonoBehaviour:
     Duration: 2
     TriggerName: Walk
   deathAnimationData:
-    Duration: 1.33
+    Duration: 1
     TriggerName: Die
-  destinationUpdateInterval: 5
+  destinationUpdateInterval: 2.5
   attackRange: 2
 --- !u!65 &3572291326222327142
 BoxCollider:
