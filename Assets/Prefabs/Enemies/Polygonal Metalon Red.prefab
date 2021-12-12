@@ -284,6 +284,7 @@ GameObject:
   - component: {fileID: 6846027713355279157}
   - component: {fileID: 6797165919677890609}
   - component: {fileID: 6797165919677890610}
+  - component: {fileID: 3572291326222327142}
   m_Layer: 0
   m_Name: Polygonal Metalon Red
   m_TagString: Untagged
@@ -408,6 +409,19 @@ MonoBehaviour:
     TriggerName: Die
   destinationUpdateInterval: 5
   attackRange: 2
+--- !u!65 &3572291326222327142
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6797165919677890611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5981193, y: 1.8964694, z: 4.0060577}
+  m_Center: {x: 0.04897237, y: 0.929397, z: 0.4457841}
 --- !u!1 &6797168286215229653
 GameObject:
   m_ObjectHideFlags: 0

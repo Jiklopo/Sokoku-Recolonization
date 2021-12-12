@@ -632,7 +632,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 150, y: 150, z: 150}
+  m_Size: {x: 100, y: 100, z: 100}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &912171816
 MonoBehaviour:
@@ -659,6 +659,7 @@ GameObject:
   - component: {fileID: 8295464907966555044}
   - component: {fileID: 4710320337505174148}
   - component: {fileID: 164872222}
+  - component: {fileID: 1500532826811392285}
   m_Layer: 0
   m_Name: Stone Golem
   m_TagString: Untagged
@@ -767,6 +768,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!136 &1500532826811392285
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3922032435885786990}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.970282
+  m_Height: 4.8016963
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.9008482, z: 0.3004161}
 --- !u!1 &3922052728540530156
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ namespace Enemies
 
 		public void ReceiveDamage(float amount)
 		{
+			CustomLogger.Log($"{name} received {amount} damage!", this);
 			health -= amount;
 			if (health <= 0)
 				Die();
