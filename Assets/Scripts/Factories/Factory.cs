@@ -44,6 +44,9 @@ namespace InventorySystem
 			IsInitialized = true;
 		}
 
-		protected abstract TProduct InstantiateItem(int selectedItemIndex);
+		protected virtual TProduct InstantiateItem(int selectedItemIndex)
+		{
+			return Instantiate(objectsList[selectedItemIndex]);
+		}
 	}
 }
