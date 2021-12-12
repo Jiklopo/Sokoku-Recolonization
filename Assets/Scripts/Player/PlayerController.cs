@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using Data;
+using DG.Tweening;
+using Enemies;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utilities;
 
 namespace Player
 {
@@ -10,14 +15,19 @@ namespace Player
 	public class PlayerController : MonoBehaviour
 	{
 		[SerializeField] private Camera playerCamera;
+		[SerializeField] private GameObject katana;
+		[SerializeField] private AnimationData primaryAttackAnimationData;
+		[SerializeField] private AnimationData secondaryAttackAnimationData;
 
 		private Player player;
 		private PlayerInputActions inputActions;
 		private CharacterController characterController;
+		private Animator animator;
 		private Coroutine jumpCoroutine;
 		private int jumpsPerformed;
 		private bool isJumping;
 		private bool isSprinting;
+		private bool isAttacking;
 		private bool canDash = true;
 
 		private PlayerStats Stats => player.playerStats;
@@ -29,6 +39,7 @@ namespace Player
 
 		private void Awake()
 		{
+			animator = GetComponent<Animator>();
 			characterController = GetComponent<CharacterController>();
 			player = GetComponent<Player>();
 		}
@@ -43,6 +54,8 @@ namespace Player
 			inputActions.Controls.Jump.started += StartJump;
 			inputActions.Controls.Jump.canceled += EndJump;
 			inputActions.Controls.Interact.performed += Interact;
+			Cursor.lockState = CursorLockMode.Confined;
+			Cursor.visible = false;
 		}
 
 		private void Update()
@@ -50,6 +63,11 @@ namespace Player
 			Move();
 			RotateCamera();
 			TryResetJumpCounter();
+		}
+
+		private void OnTriggerEnter(Collider other)
+		{
+			other.GetComponent<Enemy>()?.ReceiveDamage(Stats.Damage);
 		}
 
 		private void OnDestroy()
@@ -134,6 +152,8 @@ namespace Player
 				yield return step;
 				characterController.Move(Vector3.up * (Stats.JumpHeight * Time.deltaTime));
 			}
+
+			isJumping = false;
 		}
 
 		private void TryResetJumpCounter()
@@ -152,14 +172,29 @@ namespace Player
 			}
 		}
 
-		private void SecondaryAttack(InputAction.CallbackContext context)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		private void PrimaryAttack(InputAction.CallbackContext context)
 		{
-			throw new System.NotImplementedException();
+			PerformAttack(primaryAttackAnimationData);
+		}
+
+		private void SecondaryAttack(InputAction.CallbackContext context)
+		{
+			PerformAttack(secondaryAttackAnimationData);
+		}
+
+		private void PerformAttack(AnimationData animationData)
+		{
+			if (isAttacking)
+				return;
+
+			katana.SetActive(true);
+			isAttacking = true;
+			animator.SetTrigger(animationData.TriggerHash);
+			DOVirtual.DelayedCall(animationData.Duration, () =>
+			{
+				isAttacking = false;
+				katana.SetActive(false);
+			});
 		}
 
 		private void OnDrawGizmos()

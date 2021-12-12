@@ -27,5 +27,10 @@ namespace Utilities
 			if (Instance == this)
 				Instance = null;
 		}
+
+		private void Reset()
+		{
+			name = GetType().Name;
+		}
 	}
 }
