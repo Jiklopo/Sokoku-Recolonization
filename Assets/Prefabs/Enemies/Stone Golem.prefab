@@ -740,7 +740,7 @@ MonoBehaviour:
   baseDamage: 20
   attackCooldown: 0
   speed: 1.8
-  spawnChanceWeight: 0
+  spawnChanceWeight: 1
   attackAnimationData:
     Duration: 2
     TriggerName: MeleeAttack

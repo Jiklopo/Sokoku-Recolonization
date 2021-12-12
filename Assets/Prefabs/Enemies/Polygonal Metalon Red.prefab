@@ -397,7 +397,7 @@ MonoBehaviour:
   baseDamage: 0
   attackCooldown: 0
   speed: 4
-  spawnChanceWeight: 0
+  spawnChanceWeight: 5
   attackAnimationData:
     Duration: 0.833
     TriggerName: Attack

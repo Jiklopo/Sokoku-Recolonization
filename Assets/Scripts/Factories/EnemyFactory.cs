@@ -7,7 +7,7 @@ namespace Factories
 	{
 		protected override Enemy InstantiateItem(int selectedItemIndex)
 		{
-			throw new System.NotImplementedException();
+			return Instantiate(objectsList[selectedItemIndex]);
 		}
 	}
 }

@@ -12,7 +12,8 @@ namespace InventorySystem
 		where TSingleton : Component
 	{
 		[SerializeField] protected TProduct[] objectsList;
-		
+
+		public bool IsInitialized { get; protected set; }
 		private Dictionary<int, int> chanceMapping = new Dictionary<int, int>();
 
 		protected virtual void Start()
@@ -39,6 +40,8 @@ namespace InventorySystem
 				for (var j = 0; j < objectsList[i].DropChanceWeight; j++)
 					chanceMapping.Add(cnt++, i);
 			}
+
+			IsInitialized = true;
 		}
 
 		protected abstract TProduct InstantiateItem(int selectedItemIndex);
