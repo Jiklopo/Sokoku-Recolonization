@@ -15,6 +15,8 @@ namespace Player
 	[RequireComponent(typeof(CharacterController))]
 	public class PlayerController : MonoBehaviour
 	{
+		public static Action<float> OnDash;
+		
 		[SerializeField] private Camera playerCamera;
 		[SerializeField] private GameObject katana;
 		[SerializeField] private AnimationData primaryAttackAnimationData;
@@ -116,6 +118,7 @@ namespace Player
 				return;
 			characterController.Move(transform.forward * Stats.DashDistance);
 			canDash = false;
+			OnDash?.Invoke(Stats.DashCooldown);
 			StartCoroutine(ResetDashRoutine());
 		}
 
