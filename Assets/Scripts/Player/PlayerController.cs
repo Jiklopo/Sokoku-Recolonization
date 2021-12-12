@@ -4,6 +4,7 @@ using Data;
 using DG.Tweening;
 using Enemies;
 using Interfaces;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utilities;
@@ -46,6 +47,7 @@ namespace Player
 
 		private void Start()
 		{
+			katana.SetActive(false);
 			inputActions = player.InputActions;
 			inputActions.Controls.PrimaryAttack.performed += PrimaryAttack;
 			inputActions.Controls.SecondaryAttack.performed += SecondaryAttack;
@@ -54,6 +56,7 @@ namespace Player
 			inputActions.Controls.Jump.started += StartJump;
 			inputActions.Controls.Jump.canceled += EndJump;
 			inputActions.Controls.Interact.performed += Interact;
+			inputActions.UI.GameMenu.performed += context => GameMenu.ToggleInstance();
 			Cursor.lockState = CursorLockMode.Confined;
 			Cursor.visible = false;
 		}
@@ -67,15 +70,8 @@ namespace Player
 
 		private void OnTriggerEnter(Collider other)
 		{
-			other.GetComponent<Enemy>()?.ReceiveDamage(Stats.Damage);
-		}
-
-		private void OnDestroy()
-		{
-			inputActions.Controls.PrimaryAttack.performed -= PrimaryAttack;
-			inputActions.Controls.SecondaryAttack.performed -= SecondaryAttack;
-			inputActions.Controls.Interact.performed -= Interact;
-			inputActions.Controls.Jump.performed -= StartJump;
+			if(isAttacking)
+				other.GetComponent<Enemy>()?.ReceiveDamage(Stats.Damage);
 		}
 
 		private void Move()
