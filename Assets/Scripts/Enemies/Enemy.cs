@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using Data;
+using Factories;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,6 +27,7 @@ namespace Enemies
 
 		public float Health => health;
 		public int DropChanceWeight => spawnChanceWeight;
+		public bool IsDead { get; protected set; }
 
 		protected float health;
 		protected float damage;
@@ -60,8 +62,14 @@ namespace Enemies
 
 		protected virtual void Die()
 		{
+			if(IsDead)
+				return;
+
+			IsDead = true;
+			agent.enabled = false;
 			CustomLogger.Log($"{name} died!", this);
 			animator.SetTrigger(deathAnimationData.TriggerHash);
+			ResourceFactory.Instance.GetRandomObject().transform.position = transform.position;
 			StartCoroutine(
 				DelayActionRoutine(deathAnimationData.Duration, () => Destroy(gameObject))
 			);

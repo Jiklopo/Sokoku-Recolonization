@@ -1,6 +1,7 @@
-﻿using Factories;
+﻿using Data;
+using DG.Tweening;
+using Factories;
 using Interfaces;
-using InventorySystem;
 using UnityEngine;
 
 namespace Objects
@@ -8,6 +9,9 @@ namespace Objects
 	public class Chest : MonoBehaviour, IInteractable
 	{
 		[SerializeField] private Vector3 itemOffset;
+		[SerializeField] private AnimationData animationData;
+		[SerializeField] private Animator animator;
+		[SerializeField] private float dropForce;
 
 		private bool isUsed;
 
@@ -16,12 +20,21 @@ namespace Objects
 			if (isUsed)
 				return;
 
+			isUsed = true;
+			animator.SetTrigger(animationData.TriggerHash);
+			DOVirtual.DelayedCall(animationData.Duration, () => isUsed = SpawnItem());
+		}
+
+		private bool SpawnItem()
+		{
 			var item = ItemFactory.Instance.SpawnRandomItem(1, transform);
 			if (item == null)
-				return;
-
+				return false;
+			
 			item.transform.Translate(itemOffset);
-			isUsed = true;
+			var force = (transform.forward + Vector3.up) * dropForce;
+			item.GetComponent<Rigidbody>()?.AddForce(force, ForceMode.Impulse);
+			return true;
 		}
 	}
 }
