@@ -14,7 +14,7 @@ namespace Data
 		protected override void Awake()
 		{
 			base.Awake();
-			items = Resources.FindObjectsOfTypeAll<ItemData>();
+			items = Resources.LoadAll<ItemData>("Items");
 		}
 	}
 }

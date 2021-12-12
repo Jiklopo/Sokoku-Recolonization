@@ -324,6 +324,14 @@ namespace Player
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""GameMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""1c1fe0d9-21ad-47fe-99ab-fb0ddcc91d31"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -335,6 +343,17 @@ namespace Player
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47852ccf-019a-45ae-a6c2-6c22394168bf"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GameMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -359,6 +378,7 @@ namespace Player
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
+            m_UI_GameMenu = m_UI.FindAction("GameMenu", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -531,11 +551,13 @@ namespace Player
         private readonly InputActionMap m_UI;
         private IUIActions m_UIActionsCallbackInterface;
         private readonly InputAction m_UI_Inventory;
+        private readonly InputAction m_UI_GameMenu;
         public struct UIActions
         {
             private @PlayerInputActions m_Wrapper;
             public UIActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
+            public InputAction @GameMenu => m_Wrapper.m_UI_GameMenu;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -548,6 +570,9 @@ namespace Player
                     @Inventory.started -= m_Wrapper.m_UIActionsCallbackInterface.OnInventory;
                     @Inventory.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnInventory;
                     @Inventory.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnInventory;
+                    @GameMenu.started -= m_Wrapper.m_UIActionsCallbackInterface.OnGameMenu;
+                    @GameMenu.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnGameMenu;
+                    @GameMenu.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnGameMenu;
                 }
                 m_Wrapper.m_UIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -555,6 +580,9 @@ namespace Player
                     @Inventory.started += instance.OnInventory;
                     @Inventory.performed += instance.OnInventory;
                     @Inventory.canceled += instance.OnInventory;
+                    @GameMenu.started += instance.OnGameMenu;
+                    @GameMenu.performed += instance.OnGameMenu;
+                    @GameMenu.canceled += instance.OnGameMenu;
                 }
             }
         }
@@ -577,6 +605,7 @@ namespace Player
         public interface IUIActions
         {
             void OnInventory(InputAction.CallbackContext context);
+            void OnGameMenu(InputAction.CallbackContext context);
         }
     }
 }

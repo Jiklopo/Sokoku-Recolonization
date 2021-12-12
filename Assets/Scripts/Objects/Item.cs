@@ -1,22 +1,17 @@
 ﻿using Data;
+using Interfaces;
 using Player;
 using UnityEngine;
 
 namespace Objects
 {
-	[RequireComponent(typeof(SpriteRenderer))]
 	public class Item: MonoBehaviour, ICollisionTarget
 	{
+		[SerializeField] private SpriteRenderer spriteRenderer;
 		public ItemData ItemData => data;
-		[SerializeField] private ItemData data;
+		private ItemData data;
 
 		private bool isActivated;
-		private SpriteRenderer spriteRenderer;
-
-		private void Awake()
-		{
-			spriteRenderer = GetComponent<SpriteRenderer>();
-		}
 
 		public void OnCollision(GameObject other)
 		{
