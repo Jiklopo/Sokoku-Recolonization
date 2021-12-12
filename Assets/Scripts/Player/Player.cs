@@ -1,4 +1,5 @@
-﻿using Events;
+﻿using System;
+using Events;
 using Interfaces;
 using UnityEngine;
 using Utilities;
@@ -7,6 +8,7 @@ namespace Player
 {
 	public class Player : MonoBehaviour, IEntity
 	{
+		public static Action<float> OnPlayerHPUpdated;
 		public static bool IsControllable = true;
 		public PlayerInputActions InputActions { get; private set; }
 		public PlayerStats playerStats = new PlayerStats();
@@ -48,6 +50,7 @@ namespace Player
 		{
 			health -= amount;
 			Debug.Log($"Player health: {health}");
+			OnPlayerHPUpdated?.Invoke(health / playerStats.MaxHealth);
 			if(health <= 0)
 				Die();
 		}
@@ -56,6 +59,7 @@ namespace Player
 		{
 			health += amount;
 			health = Mathf.Min(health, playerStats.MaxHealth);
+			OnPlayerHPUpdated?.Invoke(health / playerStats.MaxHealth);
 			Debug.Log($"Player health: {health}");
 		}
 
