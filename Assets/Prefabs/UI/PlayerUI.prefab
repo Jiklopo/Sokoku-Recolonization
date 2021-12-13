@@ -4144,7 +4144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   showOnAwake: 1
-  animationTime: 0
+  animationTime: 0.2
   percentText: {fileID: 7077446045306866573}
   resourceBar: {fileID: 2873302096774856022}
 --- !u!1 &5186473247833555481

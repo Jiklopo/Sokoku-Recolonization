@@ -23,6 +23,9 @@ namespace UI
 		{
 			percentText.SetText($"{hp:P}");
 			resourceBar.fillAmount = hp;
+
+			if (hp >= 1)
+				Close();
 		}
 	}
 }
