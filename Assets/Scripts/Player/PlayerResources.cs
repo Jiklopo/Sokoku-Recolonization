@@ -10,9 +10,9 @@ namespace Player
 		public static Action<float> OnResourcesChanged;
 
 		[SerializeField] private int resourcesRequired;
-		private int resources;
+		private float resources;
 
-		public int Resources
+		public float Resources
 		{
 			get => resources;
 			private set

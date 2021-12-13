@@ -104,18 +104,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81c4dad71d394ce88a5cd5f28d0e1c22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dontDestroyOnLoad: 0
   playerStats:
     maxHealth: 100
     damage: 10
     attackSpeed: 10
-    movementSpeed: 10
-    sprintSpeedMultiplier: 1.25
+    movementSpeed: 8
+    sprintSpeedMultiplier: 1.15
     dashDistance: 10
-    dashCooldown: 5
+    dashCooldown: 7.5
     criticalChance: 10
     criticalMultiplier: 10
-    jumpHeight: 10
+    jumpHeight: 4
     maxJumps: 2
     mouseSensitivity: 10
     maxYRotation: 360
@@ -165,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9351f038c8774ef1871f559f132f2082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourcesRequired: 500
+  resourcesRequired: 125
 --- !u!1 &3360117264466821244
 GameObject:
   m_ObjectHideFlags: 0
