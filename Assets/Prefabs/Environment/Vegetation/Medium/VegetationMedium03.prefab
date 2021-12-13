@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 5668678756831174837}
   - component: {fileID: 5668678756828307605}
   - component: {fileID: 5668678756829274709}
+  - component: {fileID: 8847559693042121495}
   m_Layer: 0
   m_Name: VegetationMedium03_LOD00
   m_TagString: Untagged
@@ -243,6 +244,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8847559693042121495
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5668678756831476885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 1bbc79192e08ae0459d75d02d1f45249, type: 3}
 --- !u!1 &5668678756831476887
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1908051583340996520}
   - component: {fileID: 1908051583340193674}
   - component: {fileID: 1908051583339095370}
+  - component: {fileID: 8029213494896829822}
   m_Layer: 0
   m_Name: VegetationLarge05_LOD00
   m_TagString: Untagged
@@ -81,6 +82,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8029213494896829822
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908051583341362056}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: d64fd6a0931b7a34389216abb957525d, type: 3}
 --- !u!1 &1908051583341362058
 GameObject:
   m_ObjectHideFlags: 0
